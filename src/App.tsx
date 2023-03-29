@@ -28,7 +28,7 @@ function App() {
         <div className="flex w-full gap-12 items-center justify-between">
           <div className="flex flex-1 border bg-white rounded-full items-center">
             <span className="flex pl-4">
-              <MagnifyingGlass size={25} weight="bold" className="text-red-700"></MagnifyingGlass>
+              <MagnifyingGlass size={25} weight="bold" className="text-red-700" />
             </span>
             <input 
             type="text"
