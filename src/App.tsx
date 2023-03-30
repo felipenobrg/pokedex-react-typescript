@@ -32,7 +32,7 @@ function App() {
             </span>
             <input 
             type="text"
-            placeholder='digite o nome de um pokemon'
+            placeholder='Digite o nome de um pokémon'
             className='w-full py-3 px-6 rounded-full text-red-700
             placeholder:text-gray-600 focus: outline-none' 
             />
