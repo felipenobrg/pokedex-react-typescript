@@ -1,13 +1,22 @@
 import { PokerChip, MagnifyingGlass, Hash } from 'phosphor-react';
 import { useEffect, useState } from 'react'
+import { Card } from './components/Card';
+import { Loading } from './components/Loading';
 
+interface IPokemon {
+  name: string;
+  url: string;
+}
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemons, setPokemons] = useState<IPokemon[]>([])
+  const [loading, setLoading] = useState(true) 
+  const [input, setInput] = useState("")
 
   async function fetchData() {
-    const data = await fetch('https://pokeapi.co/api/v2/pokemon?limit=150')
+    const data = await fetch('https://pokeapi.co/api/v2/pokemon?limit=120 ')
     .then((response) => response.json())
+    .finally(() => setLoading(false)) // Colocar nos projetos que usam api, para recarregamento
 
     setPokemons(data.results);
   }
@@ -15,6 +24,8 @@ function App() {
    useEffect(() => {
     fetchData();
    }, []);
+
+   if (loading) return <Loading />
 
    return (
     <div className='flex flex-col mb-12'>
@@ -30,9 +41,12 @@ function App() {
             <span className="flex pl-4">
               <MagnifyingGlass size={25} weight="bold" className="text-red-700" />
             </span>
+
             <input 
             type="text"
-            placeholder='Digite o nome de um pokémon'
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder='Search'
             className='w-full py-3 px-6 rounded-full text-red-700
             placeholder:text-gray-600 focus: outline-none' 
             />
@@ -47,11 +61,16 @@ function App() {
 
       <main className='grid grid-cols-2
       sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 pt-12 gap-3 mx-auto'>
-        {pokemons.map ((item) => (
-          <p key={item.name}>{item.name}</p>
+        {pokemons.filter((filteredItem) => filteredItem.name.includes(input)).map((item, index) => (
+          <Card 
+          key={item.name}
+          name={item.name}
+          position={item.url}
+          />
         ))}
-
       </main>
+
+     
      
     </div>
   )
